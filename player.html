@@ -1,0 +1,55 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Player | Quiz Live MVP</title>
+  <link rel="stylesheet" href="./app.css" />
+  <script src="./config.js"></script>
+  <script src="./js/shared.js"></script>
+</head>
+<body>
+  <main>
+    <div class="nav">
+      <a href="./index.html">Налаштування</a>
+      <a href="./host.html">Host</a>
+    </div>
+
+    <h1>Player</h1>
+
+    <section class="card" id="joinSection">
+      <h2>Вхід у сесію</h2>
+      <div class="grid">
+        <div>
+          <label for="codeInput">Код сесії</label>
+          <input id="codeInput" maxlength="8" placeholder="Напр. AB12CD" />
+        </div>
+        <div>
+          <label for="nicknameInput">Нікнейм</label>
+          <input id="nicknameInput" maxlength="24" placeholder="Твій нік" />
+        </div>
+      </div>
+      <button id="joinBtn" class="btn-primary" style="margin-top: 10px;">Підключитися</button>
+      <p id="joinStatus" class="small"></p>
+    </section>
+
+    <section class="card" id="gameSection" style="display:none;">
+      <p>Сесія: <span id="sessionCode" class="code">------</span></p>
+      <p>Статус: <span id="sessionStatus" class="badge">lobby</span></p>
+      <p>Твій рахунок: <b id="myScore">0</b> | Ранг: <b id="myRank">-</b></p>
+      <div id="questionBox"></div>
+      <p id="gameInfo" class="small"></p>
+    </section>
+
+    <section class="card" id="leaderboardSection" style="display:none;">
+      <h3>Лідерборд</h3>
+      <table class="table" id="leaderboardTable">
+        <thead><tr><th>#</th><th>Нік</th><th>Бали</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="./js/player.js"></script>
+</body>
+</html>

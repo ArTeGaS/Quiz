@@ -1,0 +1,76 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz Live MVP</title>
+  <link rel="stylesheet" href="./app.css" />
+  <script src="./config.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Quiz Live MVP</h1>
+    <div class="nav">
+      <a href="./host.html">Режим Host</a>
+      <a href="./player.html">Режим Player</a>
+    </div>
+
+    <section class="card">
+      <h2>Конфіг підключення</h2>
+      <p class="small">Для GitHub Pages вкажи публічні URL бекенду (Cloudflare Tunnel).</p>
+      <div class="grid">
+        <div>
+          <label for="apiBase">API base URL</label>
+          <input id="apiBase" />
+        </div>
+        <div>
+          <label for="wsBase">WS base URL</label>
+          <input id="wsBase" />
+        </div>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <button id="saveConfig" class="btn-primary">Зберегти конфіг</button>
+        <button id="resetConfig" class="btn-secondary" type="button">Скинути на localhost</button>
+      </div>
+      <p id="configStatus" class="small" style="margin-top: 10px;"></p>
+    </section>
+
+    <section class="card">
+      <h2>Швидкий старт</h2>
+      <ol>
+        <li>Запусти бекенд: <code>backend/run_backend.ps1</code>.</li>
+        <li>Запусти tunnel: <code>backend/run_tunnel.ps1</code>.</li>
+        <li>Скопіюй URL tunnel в поля вище та збережи.</li>
+        <li>Відкрий <b>Host</b>, створи сесію і дай код учням.</li>
+      </ol>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var apiInput = document.getElementById('apiBase');
+      var wsInput = document.getElementById('wsBase');
+      var saveBtn = document.getElementById('saveConfig');
+      var resetBtn = document.getElementById('resetConfig');
+      var statusEl = document.getElementById('configStatus');
+
+      apiInput.value = window.QUIZ_CONFIG.API_BASE_URL;
+      wsInput.value = window.QUIZ_CONFIG.WS_BASE_URL;
+
+      saveBtn.addEventListener('click', function () {
+        localStorage.setItem('quiz_api_base', apiInput.value.trim());
+        localStorage.setItem('quiz_ws_base', wsInput.value.trim());
+        statusEl.textContent = 'Збережено. Перезавантаж сторінку Host/Player.';
+      });
+
+      resetBtn.addEventListener('click', function () {
+        localStorage.removeItem('quiz_api_base');
+        localStorage.removeItem('quiz_ws_base');
+        apiInput.value = 'http://127.0.0.1:8787';
+        wsInput.value = 'ws://127.0.0.1:8787';
+        statusEl.textContent = 'Скинуто на localhost.';
+      });
+    })();
+  </script>
+</body>
+</html>

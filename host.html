@@ -1,0 +1,79 @@
+﻿<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Host | Quiz Live MVP</title>
+  <link rel="stylesheet" href="./app.css" />
+  <script src="./config.js"></script>
+  <script src="./js/shared.js"></script>
+</head>
+<body>
+  <main>
+    <div class="nav">
+      <a href="./index.html">Налаштування</a>
+      <a href="./player.html">Player</a>
+    </div>
+
+    <h1>Host панель</h1>
+
+    <section class="card">
+      <h2>1) Створення сесії</h2>
+      <div class="grid">
+        <div>
+          <label for="titleInput">Назва сесії</label>
+          <input id="titleInput" value="Python Quiz" />
+        </div>
+        <div>
+          <label for="hostNameInput">Ім'я викладача</label>
+          <input id="hostNameInput" value="Teacher" />
+        </div>
+      </div>
+      <label for="questionsInput" style="margin-top: 10px;">Питання (JSON масив)</label>
+      <textarea id="questionsInput"></textarea>
+      <div class="row" style="margin-top: 10px;">
+        <button id="createBtn" class="btn-primary">Створити сесію</button>
+        <button id="loadSampleBtn" class="btn-secondary" type="button">Підставити приклад</button>
+      </div>
+      <p id="createStatus" class="small"></p>
+    </section>
+
+    <section class="card">
+      <h2>2) Керування грою</h2>
+      <p>Код сесії: <span id="sessionCode" class="code">------</span></p>
+      <p>Статус: <span id="sessionStatus" class="badge">lobby</span></p>
+      <div class="row">
+        <button id="startBtn" class="btn-primary" disabled>Старт</button>
+        <button id="nextBtn" class="btn-secondary" disabled>Наступне питання</button>
+        <button id="finishBtn" class="btn-danger" disabled>Завершити</button>
+      </div>
+      <div class="row" style="margin-top: 10px;">
+        <button id="clearSavedBtn" class="btn-secondary" type="button">Очистити збережену host-сесію</button>
+      </div>
+      <p id="questionStatus" class="small" style="margin-top: 10px;"></p>
+      <p id="reportLinks" class="small"></p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h3>Учасники</h3>
+        <ul id="participantsList"></ul>
+      </section>
+      <section class="card">
+        <h3>Лідерборд</h3>
+        <table class="table" id="leaderboardTable">
+          <thead><tr><th>#</th><th>Нік</th><th>Бали</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+
+    <section class="card">
+      <h3>Лог подій</h3>
+      <div id="log" class="log"></div>
+    </section>
+  </main>
+
+  <script src="./js/host.js"></script>
+</body>
+</html>
