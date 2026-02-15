@@ -21,7 +21,14 @@
       request.body = JSON.stringify(request.body);
     }
 
-    var response = await fetch(getApiBase() + path, request);
+    var url = getApiBase() + path;
+    var response;
+    try {
+      response = await fetch(url, request);
+    } catch (error) {
+      var source = (window.QUIZ_CONFIG && window.QUIZ_CONFIG.SOURCE) || 'unknown';
+      throw new Error('Failed to fetch [' + url + '] (source=' + source + ')');
+    }
     var contentType = response.headers.get('content-type') || '';
     var payload;
     if (contentType.includes('application/json')) {

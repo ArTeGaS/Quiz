@@ -40,14 +40,14 @@
     storedApi = deriveApiFromWs(storedWs);
   }
 
-  if (apiParam && wsParam) {
-    api = apiParam;
-    ws = wsParam;
-    source = 'query';
-  } else if (runtimeApi && runtimeWs) {
+  if (runtimeApi && runtimeWs) {
     api = runtimeApi;
     ws = runtimeWs;
     source = 'runtime';
+  } else if (apiParam && wsParam) {
+    api = apiParam;
+    ws = wsParam;
+    source = 'query';
   } else if (storedApi && storedWs) {
     api = storedApi;
     ws = storedWs;
