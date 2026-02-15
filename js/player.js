@@ -32,6 +32,18 @@
     leaderboardTable: document.querySelector('#leaderboardTable tbody'),
   };
 
+  function applyJoinPrefillFromQuery() {
+    var params = new URLSearchParams(window.location.search);
+    var code = (params.get('code') || '').trim();
+    var nickname = (params.get('nickname') || '').trim();
+    if (code) {
+      el.codeInput.value = code.toUpperCase();
+    }
+    if (nickname) {
+      el.nicknameInput.value = nickname;
+    }
+  }
+
   function setStatus(status) {
     state.status = status;
     el.sessionStatus.textContent = status;
@@ -247,11 +259,17 @@
       renderLobby();
       connectWs();
     } catch (error) {
-      el.joinStatus.textContent = 'Помилка: ' + error.message;
+      var apiInfo = shared.getApiBase();
+      el.joinStatus.textContent =
+        'Помилка: ' + error.message +
+        '. API=' + apiInfo +
+        '. Якщо це \"Failed to fetch\", відкрий \"Налаштування\" і перевір API/WS URL.';
     }
   }
 
   el.joinBtn.addEventListener('click', function () {
     joinSession();
   });
+
+  applyJoinPrefillFromQuery();
 })();
