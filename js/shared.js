@@ -13,6 +13,9 @@
 
   async function apiFetch(path, options) {
     var request = Object.assign({ method: 'GET', headers: {} }, options || {});
+    request.headers = Object.assign({}, request.headers || {}, {
+      'ngrok-skip-browser-warning': 'true',
+    });
     if (request.body && typeof request.body === 'object') {
       request.headers['Content-Type'] = 'application/json';
       request.body = JSON.stringify(request.body);
