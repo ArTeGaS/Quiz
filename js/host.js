@@ -26,8 +26,6 @@
     clearSavedBtn: document.getElementById('clearSavedBtn'),
     createStatus: document.getElementById('createStatus'),
     sessionCode: document.getElementById('sessionCode'),
-    joinLink: document.getElementById('joinLink'),
-    copyJoinLinkBtn: document.getElementById('copyJoinLinkBtn'),
     sessionStatus: document.getElementById('sessionStatus'),
     startBtn: document.getElementById('startBtn'),
     nextBtn: document.getElementById('nextBtn'),
@@ -79,44 +77,6 @@
     el.startBtn.disabled = !hasSession || state.status === 'active' || state.status === 'finished';
     el.nextBtn.disabled = !hasSession || state.status !== 'active';
     el.finishBtn.disabled = !hasSession || state.status === 'finished';
-    el.copyJoinLinkBtn.disabled = !hasSession;
-  }
-
-  function buildPlayerLink() {
-    if (!state.sessionCode) {
-      return null;
-    }
-    var url = new URL('./player.html', window.location.href);
-    url.searchParams.set('code', state.sessionCode);
-    url.searchParams.set('api', shared.getApiBase());
-    url.searchParams.set('ws', shared.getWsBase());
-    return url.toString();
-  }
-
-  function updateJoinLink() {
-    var link = buildPlayerLink();
-    if (!link) {
-      el.joinLink.href = '#';
-      el.joinLink.textContent = "з'явиться після створення сесії";
-      return;
-    }
-    el.joinLink.href = link;
-    el.joinLink.textContent = link;
-  }
-
-  async function copyJoinLink() {
-    var link = buildPlayerLink();
-    if (!link) {
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(link);
-      el.createStatus.textContent = 'Лінк для Player скопійовано.';
-      log('Скопійовано лінк для Player.');
-    } catch (error) {
-      el.createStatus.textContent = 'Не вдалося скопіювати лінк. Скопіюй вручну.';
-      log('Clipboard недоступний: ' + error.message);
-    }
   }
 
   function persistHostSession() {
@@ -226,7 +186,6 @@
         setStatus(data.status || state.status);
         persistHostSession();
         el.sessionCode.textContent = state.sessionCode || '------';
-        updateJoinLink();
         renderParticipants(data.participants || []);
         renderLeaderboard(data.leaderboard || []);
         setQuestionStatusFromState(data);
@@ -312,7 +271,6 @@
       setStatus(result.status);
       persistHostSession();
       el.sessionCode.textContent = state.sessionCode;
-      updateJoinLink();
       el.createStatus.textContent = 'Сесію створено.';
       setButtonsState();
       connectWs();
@@ -345,7 +303,6 @@
     state.hostToken = savedToken;
     state.sessionCode = savedCode;
     el.sessionCode.textContent = savedCode;
-    updateJoinLink();
     setButtonsState();
 
     try {
@@ -371,7 +328,6 @@
       setStatus('lobby');
       setButtonsState();
       el.sessionCode.textContent = '------';
-      updateJoinLink();
       el.createStatus.textContent = 'Збережену сесію не вдалося відновити: ' + error.message;
       log('Не відновлено збережену сесію: ' + error.message);
     }
@@ -383,10 +339,6 @@
 
   el.loadSampleBtn.addEventListener('click', function () {
     setDefaultQuestions();
-  });
-
-  el.copyJoinLinkBtn.addEventListener('click', function () {
-    copyJoinLink();
   });
 
   el.clearSavedBtn.addEventListener('click', function () {
@@ -402,7 +354,6 @@
     setStatus('lobby');
     setButtonsState();
     el.sessionCode.textContent = '------';
-    updateJoinLink();
     el.questionStatus.textContent = 'Очікування старту';
     el.reportLinks.innerHTML = '';
     renderParticipants([]);
@@ -425,7 +376,6 @@
 
   setDefaultQuestions();
   setButtonsState();
-  updateJoinLink();
   restoreSavedSession();
   log('Готово. Створи сесію або віднови збережену.');
 })();
