@@ -8,6 +8,6 @@
 - `player.html` — екран учня
 
 ## Налаштування
-1. Відкрий `index.html`.
-2. Вкажи `API_BASE_URL` і `WS_BASE_URL` вашого бекенду (Cloudflare Tunnel).
-3. Перейди в `host.html` або `player.html`.
+1. Онови `runtime-config.js` актуальним URL бекенду і запуш у цей репозиторій.
+2. Host відкриває `host.html` і створює сесію.
+3. Player відкриває `player.html` і вводить тільки код + нік.
