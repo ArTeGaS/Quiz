@@ -3,52 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Player | Quiz Live MVP</title>
-  <link rel="stylesheet" href="./app.css?v=20260215_3" />
+  <script>
+    (function () {
+      var build = '20260305_3';
+      var url = new URL(window.location.href);
+      if (url.searchParams.get('v') !== build) {
+        url.searchParams.set('v', build);
+        window.location.replace(url.toString());
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="./app.css?v=20260305_3" />
   <script>
     document.write('<script src="./runtime-config.js?v=' + Date.now() + '"><' + '/script>');
   </script>
-  <script src="./config.js?v=20260215_3"></script>
-  <script src="./js/shared.js?v=20260215_3"></script>
+  <script src="./config.js?v=20260305_3"></script>
+  <script src="./js/shared.js?v=20260305_3"></script>
 </head>
-<body>
-  <main>
-    <h1>Player</h1>
-
+<body class="player-page">
+  <main class="player-shell">
     <section class="card" id="joinSection">
       <h2>Вхід у сесію</h2>
+      <p class="small">Введи код та нікнейм, щоб підключитися до поточного раунду.</p>
       <div class="grid">
         <div>
           <label for="codeInput">Код сесії</label>
-          <input id="codeInput" maxlength="8" placeholder="Напр. AB12CD" />
+          <input id="codeInput" maxlength="8" placeholder="Напр. 123456" />
         </div>
         <div>
           <label for="nicknameInput">Нікнейм</label>
           <input id="nicknameInput" maxlength="24" placeholder="Твій нік" />
         </div>
       </div>
-      <button id="joinBtn" class="btn-primary" style="margin-top: 10px;">Підключитися</button>
+      <div class="player-join-actions">
+        <button id="joinBtn" class="btn-primary">Підключитися</button>
+      </div>
       <p id="joinStatus" class="small"></p>
     </section>
 
-    <section class="card" id="gameSection" style="display:none;">
-      <p>Сесія: <span id="sessionCode" class="code">------</span></p>
-      <p>Статус: <span id="sessionStatus" class="badge">lobby</span></p>
-      <p>Твій рахунок: <b id="myScore">0</b> | Ранг: <b id="myRank">-</b></p>
-      <div id="questionBox"></div>
-      <p id="gameInfo" class="small"></p>
-    </section>
+    <div class="player-layout">
+      <section class="card" id="gameSection" style="display:none;">
+        <div class="player-status-line">
+          <div class="player-session">
+            <span class="small">Сесія</span>
+            <span id="sessionCode" class="code">------</span>
+          </div>
+          <div class="player-state">
+            <span class="small">Статус</span>
+            <span id="sessionStatus" class="badge">lobby</span>
+          </div>
+        </div>
 
-    <section class="card" id="leaderboardSection" style="display:none;">
-      <h3>Лідерборд</h3>
-      <table class="table" id="leaderboardTable">
-        <thead><tr><th>#</th><th>Нік</th><th>Бали</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
+        <div class="player-stats">
+          <div class="stat-chip">
+            <span class="stat-label">Твій рахунок</span>
+            <b id="myScore" class="stat-value">0</b>
+          </div>
+          <div class="stat-chip">
+            <span class="stat-label">Ранг</span>
+            <b id="myRank" class="stat-value">-</b>
+          </div>
+          <div class="stat-chip stat-chip-accent">
+            <span class="stat-label">Темп</span>
+            <b class="stat-value">Live</b>
+          </div>
+        </div>
+
+        <div id="questionBox" class="player-question"></div>
+        <p id="gameInfo" class="small"></p>
+      </section>
+
+      <section class="card" id="leaderboardSection" style="display:none;">
+        <h3>Лідерборд</h3>
+        <table class="table" id="leaderboardTable">
+          <thead><tr><th>#</th><th>Нік</th><th>Бали</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
   </main>
 
-  <script src="./js/player.js?v=20260215_3"></script>
+  <script src="./js/player.js?v=20260305_3"></script>
 </body>
 </html>
 

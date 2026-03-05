@@ -6,6 +6,9 @@
     sessionCode: 'quiz_host_code',
   };
 
+  var DEFAULT_SESSION_TITLE = 'Quiz Live';
+  var DEFAULT_HOST_NAME = 'Teacher';
+
   var state = {
     sessionId: null,
     hostToken: null,
@@ -18,11 +21,7 @@
   };
 
   var el = {
-    titleInput: document.getElementById('titleInput'),
-    hostNameInput: document.getElementById('hostNameInput'),
-    questionsInput: document.getElementById('questionsInput'),
     createBtn: document.getElementById('createBtn'),
-    loadSampleBtn: document.getElementById('loadSampleBtn'),
     clearSavedBtn: document.getElementById('clearSavedBtn'),
     createStatus: document.getElementById('createStatus'),
     sessionCode: document.getElementById('sessionCode'),
@@ -32,8 +31,8 @@
     finishBtn: document.getElementById('finishBtn'),
     questionStatus: document.getElementById('questionStatus'),
     participantsList: document.getElementById('participantsList'),
+    leaderboardSection: document.getElementById('leaderboardSection'),
     leaderboardTable: document.querySelector('#leaderboardTable tbody'),
-    log: document.getElementById('log'),
     reportLinks: document.getElementById('reportLinks'),
   };
 
@@ -58,18 +57,21 @@
     },
   ];
 
-  function setDefaultQuestions() {
-    el.questionsInput.value = JSON.stringify(sampleQuestions, null, 2);
+  function log() {
+    // Log UI removed by design.
   }
 
-  function log(message) {
-    var line = '[' + shared.formatTime(new Date()) + '] ' + message;
-    el.log.textContent = line + '\n' + el.log.textContent;
+  function updateLeaderboardVisibility() {
+    if (!el.leaderboardSection) {
+      return;
+    }
+    el.leaderboardSection.style.display = state.status === 'finished' ? 'block' : 'none';
   }
 
   function setStatus(status) {
     state.status = status;
     el.sessionStatus.textContent = status;
+    updateLeaderboardVisibility();
   }
 
   function setButtonsState() {
@@ -198,13 +200,11 @@
       case 'participant_joined': {
         if (data.participants) renderParticipants(data.participants);
         if (data.leaderboard) renderLeaderboard(data.leaderboard);
-        log('Підключився: ' + (data.nickname || 'учасник'));
         break;
       }
       case 'session_state': {
         setStatus(data.status || state.status);
         setButtonsState();
-        log('Статус: ' + state.status);
         if (state.status === 'finished') {
           showReportLinks();
         }
@@ -215,7 +215,6 @@
           'Відкрите питання ' + (data.questionIndex + 1) +
           '/' + (data.totalQuestions || state.totalQuestions) +
           ' (ліміт ' + data.timeLimitSec + 'с)';
-        log('Відкрито питання #' + (data.questionIndex + 1));
         break;
       }
       case 'question_result': {
@@ -223,7 +222,6 @@
         el.questionStatus.textContent =
           'Питання #' + (data.questionIndex + 1) +
           ' завершено. Правильна відповідь: варіант ' + (data.correctIndex + 1);
-        log('Результати питання #' + (data.questionIndex + 1));
         break;
       }
       case 'leaderboard_update': {
@@ -236,7 +234,6 @@
         setButtonsState();
         el.questionStatus.textContent = 'Сесію завершено';
         showReportLinks();
-        log('Сесію завершено');
         break;
       }
       case 'answer_ack':
@@ -251,13 +248,10 @@
     el.createStatus.textContent = '';
     try {
       var payload = {
-        title: el.titleInput.value,
-        hostName: el.hostNameInput.value,
+        title: DEFAULT_SESSION_TITLE,
+        hostName: DEFAULT_HOST_NAME,
+        questions: sampleQuestions,
       };
-      var rawQuestions = el.questionsInput.value.trim();
-      if (rawQuestions) {
-        payload.questions = JSON.parse(rawQuestions);
-      }
 
       var result = await shared.apiFetch('/api/host/sessions', {
         method: 'POST',
@@ -274,7 +268,6 @@
       el.createStatus.textContent = 'Сесію створено.';
       setButtonsState();
       connectWs();
-      log('Створено сесію з кодом ' + state.sessionCode);
     } catch (error) {
       el.createStatus.textContent = 'Помилка: ' + error.message;
       log('Помилка створення: ' + error.message);
@@ -319,7 +312,6 @@
         showReportLinks();
       }
       connectWs();
-      log('Відновлено host-сесію: ' + savedCode);
     } catch (error) {
       clearSavedSession();
       state.sessionId = null;
@@ -329,16 +321,11 @@
       setButtonsState();
       el.sessionCode.textContent = '------';
       el.createStatus.textContent = 'Збережену сесію не вдалося відновити: ' + error.message;
-      log('Не відновлено збережену сесію: ' + error.message);
     }
   }
 
   el.createBtn.addEventListener('click', function () {
     createSession();
-  });
-
-  el.loadSampleBtn.addEventListener('click', function () {
-    setDefaultQuestions();
   });
 
   el.clearSavedBtn.addEventListener('click', function () {
@@ -359,7 +346,6 @@
     renderParticipants([]);
     renderLeaderboard([]);
     el.createStatus.textContent = 'Збережену host-сесію очищено.';
-    log('Очищено збережені дані host-сесії.');
   });
 
   el.startBtn.addEventListener('click', function () {
@@ -374,8 +360,8 @@
     hostAction('/api/host/sessions/' + state.sessionId + '/finish');
   });
 
-  setDefaultQuestions();
+  el.questionStatus.textContent = 'Очікування старту';
   setButtonsState();
+  updateLeaderboardVisibility();
   restoreSavedSession();
-  log('Готово. Створи сесію або віднови збережену.');
 })();
