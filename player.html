@@ -9,7 +9,7 @@
   <title>Player | Quiz Live MVP</title>
   <script>
     (function () {
-      var build = '20260305_3';
+      var build = '20260305_4';
       var url = new URL(window.location.href);
       if (url.searchParams.get('v') !== build) {
         url.searchParams.set('v', build);
@@ -17,12 +17,12 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="./app.css?v=20260305_3" />
+  <link rel="stylesheet" href="./app.css?v=20260305_4" />
   <script>
     document.write('<script src="./runtime-config.js?v=' + Date.now() + '"><' + '/script>');
   </script>
-  <script src="./config.js?v=20260305_3"></script>
-  <script src="./js/shared.js?v=20260305_3"></script>
+  <script src="./config.js?v=20260305_4"></script>
+  <script src="./js/shared.js?v=20260305_4"></script>
 </head>
 <body class="player-page">
   <main class="player-shell">
@@ -77,17 +77,69 @@
         <p id="gameInfo" class="small"></p>
       </section>
 
-      <section class="card" id="leaderboardSection" style="display:none;">
-        <h3>Лідерборд</h3>
-        <table class="table" id="leaderboardTable">
-          <thead><tr><th>#</th><th>Нік</th><th>Бали</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </section>
+      <aside class="player-side">
+        <section class="card" id="modeSection" style="display:none;">
+          <h3 id="modeTitle">Режим</h3>
+          <p id="modeSubtitle" class="small"></p>
+
+          <div id="unlockProgress" class="unlock-progress" style="display:none;">
+            <div class="unlock-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div id="unlockFill" class="unlock-fill"></div>
+            </div>
+            <p id="unlockText" class="small"></p>
+          </div>
+
+          <div id="archGamePanel" class="arch-game-panel" style="display:none;">
+            <div class="row arch-game-controls">
+              <button id="startMiniGameBtn" type="button" class="btn-secondary">Почати експедицію</button>
+              <div class="arch-metrics">
+                <span id="miniTimer" class="badge">20с</span>
+                <span id="miniHits" class="badge">0 / 8</span>
+              </div>
+            </div>
+
+            <svg
+              id="archGameSvg"
+              class="arch-svg"
+              viewBox="0 0 420 280"
+              role="img"
+              aria-labelledby="archGameTitle archGameDesc"
+            >
+              <title id="archGameTitle">Команда археологів</title>
+              <desc id="archGameDesc">Клікай на артефакти, які з’являються в зоні розкопок, щоб завершити експедицію.</desc>
+              <defs>
+                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#26163d" />
+                  <stop offset="100%" stop-color="#130c1f" />
+                </linearGradient>
+                <linearGradient id="groundGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#5b3b31" />
+                  <stop offset="100%" stop-color="#7d533f" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="420" height="280" fill="url(#skyGrad)" />
+              <rect x="0" y="170" width="420" height="110" fill="url(#groundGrad)" />
+              <rect x="46" y="110" width="328" height="122" rx="16" fill="rgba(36, 21, 56, 0.72)" stroke="rgba(215, 152, 255, 0.35)" />
+              <circle cx="88" cy="66" r="26" fill="rgba(108, 66, 164, 0.5)" />
+              <path d="M282 56 h74 l22 52 h-96 z" fill="rgba(170, 110, 235, 0.26)" />
+              <g id="artifactLayer"></g>
+            </svg>
+
+            <p id="miniGameStatus" class="small"></p>
+          </div>
+        </section>
+
+        <section class="card" id="leaderboardSection" style="display:none;">
+          <h3>Лідерборд</h3>
+          <table class="table" id="leaderboardTable">
+            <thead><tr><th>#</th><th>Нік</th><th>Бали</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </section>
+      </aside>
     </div>
   </main>
 
-  <script src="./js/player.js?v=20260305_3"></script>
+  <script src="./js/player.js?v=20260305_4"></script>
 </body>
 </html>
-

@@ -9,7 +9,7 @@
   <title>Host | Quiz Live MVP</title>
   <script>
     (function () {
-      var build = '20260305_3';
+      var build = '20260305_4';
       var url = new URL(window.location.href);
       if (url.searchParams.get('v') !== build) {
         url.searchParams.set('v', build);
@@ -17,12 +17,12 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="./app.css?v=20260305_3" />
+  <link rel="stylesheet" href="./app.css?v=20260305_4" />
   <script>
     document.write('<script src="./runtime-config.js?v=' + Date.now() + '"><' + '/script>');
   </script>
-  <script src="./config.js?v=20260305_3"></script>
-  <script src="./js/shared.js?v=20260305_3"></script>
+  <script src="./config.js?v=20260305_4"></script>
+  <script src="./js/shared.js?v=20260305_4"></script>
 </head>
 <body class="host-page">
   <main class="host-shell">
@@ -37,12 +37,39 @@
       </div>
     </section>
 
+    <section class="card host-setup-card">
+      <div class="host-setup-grid">
+        <section class="host-mode-panel">
+          <h2>Режим перед стартом</h2>
+          <div id="modeCards" class="mode-cards"></div>
+          <p id="modeHint" class="small"></p>
+        </section>
+
+        <section class="host-library-panel">
+          <h2>Бібліотека квізів</h2>
+          <label for="quizSelect">Обраний квіз</label>
+          <select id="quizSelect"></select>
+          <div class="row host-library-actions">
+            <button id="refreshQuizzesBtn" class="btn-secondary" type="button">Оновити список</button>
+          </div>
+
+          <label for="quizFileInput">Завантажити JSON квізу</label>
+          <input id="quizFileInput" type="file" accept="application/json,.json" />
+          <div class="row host-library-actions">
+            <button id="uploadQuizBtn" class="btn-primary" type="button">Зберегти в бібліотеку</button>
+          </div>
+          <p id="quizLibraryStatus" class="small"></p>
+        </section>
+      </div>
+    </section>
+
     <section class="card host-control-card">
       <div class="host-control-grid">
         <div class="host-controls">
           <h2>Керування грою</h2>
+          <p id="sessionMeta" class="small"></p>
           <div class="host-actions">
-            <button id="createBtn" class="btn-primary">Створити сесію</button>
+            <button id="createBtn" class="btn-primary">Створити лобі</button>
             <button id="startBtn" class="btn-primary" disabled>Старт</button>
             <button id="nextBtn" class="btn-secondary" disabled>Далі</button>
             <button id="finishBtn" class="btn-danger" disabled>Фініш</button>
@@ -69,6 +96,6 @@
     </section>
   </main>
 
-  <script src="./js/host.js?v=20260305_3"></script>
+  <script src="./js/host.js?v=20260305_4"></script>
 </body>
 </html>
