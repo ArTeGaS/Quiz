@@ -1,7 +1,7 @@
 ﻿(function () {
   window.QUIZ_RUNTIME_CONFIG = {
-    api: 'https://39ce-176-37-25-27.ngrok-free.app',
-    ws: 'wss://39ce-176-37-25-27.ngrok-free.app',
-    updatedAt: '2026-02-27T15:48:56.5019750+02:00',
+    api: 'https://3705-176-37-25-27.ngrok-free.app',
+    ws: 'wss://3705-176-37-25-27.ngrok-free.app',
+    updatedAt: '2026-03-05T20:00:17.7964005+02:00',
   };
 })();
