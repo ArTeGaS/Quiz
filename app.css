@@ -25,25 +25,13 @@ body {
   position: relative;
   overflow-x: hidden;
   font-family: Bahnschrift, 'Trebuchet MS', 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(1100px 600px at 14% -20%, rgba(153, 78, 246, 0.22), transparent 62%),
-    radial-gradient(960px 520px at 92% 14%, rgba(96, 36, 163, 0.28), transparent 67%),
-    linear-gradient(150deg, #040307 0%, #07050c 42%, #11091b 100%);
+  background: linear-gradient(150deg, #040307 0%, #07050c 46%, #11091b 100%);
   color: var(--text);
 }
 
 body::before,
 body::after {
-  content: '';
-  position: fixed;
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  filter: blur(64px);
-  opacity: 0.35;
-  pointer-events: none;
-  z-index: 0;
-  animation: aura-drift 12s ease-in-out infinite alternate;
+  content: none;
 }
 
 body::before {
@@ -87,8 +75,7 @@ h1 {
   border-radius: 18px;
   padding: 18px;
   margin-bottom: 14px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(7px);
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.24);
 }
 
 .grid {
@@ -151,7 +138,7 @@ button {
 
 button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(12, 5, 20, 0.5);
+  box-shadow: 0 6px 14px rgba(12, 5, 20, 0.28);
 }
 
 button:disabled {
@@ -213,7 +200,7 @@ button:disabled {
   letter-spacing: 4px;
   font-weight: 700;
   color: #f6e9ff;
-  text-shadow: 0 0 18px rgba(197, 120, 255, 0.45);
+  text-shadow: none;
 }
 
 .options {
@@ -422,7 +409,7 @@ a {
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(120deg, #8743de 0%, #c77dff 100%);
-  box-shadow: 0 0 18px rgba(188, 117, 255, 0.44);
+  box-shadow: 0 0 10px rgba(188, 117, 255, 0.22);
   transition: width 0.35s ease;
 }
 
@@ -449,14 +436,13 @@ a {
   border-radius: 12px;
   border: 1px solid rgba(189, 129, 255, 0.34);
   background: #10091a;
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.26);
   margin-bottom: 8px;
 }
 
 .artifact-token {
   cursor: pointer;
   transform-origin: center;
-  animation: artifact-float 0.95s ease-in-out infinite alternate;
   transition: transform 0.12s ease, opacity 0.12s ease;
 }
 
@@ -498,7 +484,7 @@ a {
 
 .mode-card.active {
   border-color: rgba(226, 157, 255, 0.8);
-  box-shadow: 0 0 0 2px rgba(189, 117, 255, 0.26), 0 14px 26px rgba(10, 6, 16, 0.52);
+  box-shadow: 0 0 0 1px rgba(189, 117, 255, 0.22);
 }
 
 .mode-card .mode-icon {
@@ -527,12 +513,9 @@ a {
   color: #cdbce5;
 }
 
-.mode-icon-float {
-  animation: mode-float 1.4s ease-in-out infinite alternate;
-}
-
+.mode-icon-float,
 .mode-icon-pulse {
-  animation: mode-pulse 1s ease-in-out infinite alternate;
+  animation: none;
 }
 
 .host-shell {
@@ -712,5 +695,12 @@ a {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
   }
 }
